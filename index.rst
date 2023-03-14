@@ -19,10 +19,31 @@ Checks the performance of the TMA under 3.5 degree random offsets tracking for 3
 Methodology
 ===========
 
-This 
+On March 9, 2023, we used the following test strategy to check the stability of the TMA under slews.
 
-Add content here.
-See the `reStructuredText Style Guide <https://developer.lsst.io/restructuredtext/style.html>`__ to learn how to create sections, links, images, tables, equations, and more.
+1. Take 3 images in one location.
+2. Move 3.5 degrees in a random direction and take 3 images there.
+3. Return to location (1) and take three more images.
+4. Repeat steps 2 and 3 four more times.
+5. Move to new location and repeat steps 1 – 4.
+
+Analysis
+========
+
+For each central location we plot:
+
+1. The ra and dec of all images in the set.
+2. The ra and dec offset for the central position relative to the first image taken (without wcs). Different colors correspond to different repetitions in step 3.
+3. The calculated ra and dec offset of the central position relative to the first image taken (with wcs). Different colors correspond to different repetitions in step 3.
+
+We also calculate the drift and jitter in ra and dec over time.
+
+
+Summary
+=======
+
+
+
 
 .. Make in-text citations with: :cite:`bibkey`.
 .. Uncomment to use citations
