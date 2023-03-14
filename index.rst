@@ -13,10 +13,13 @@
 Abstract
 ========
 
-Checks the performance of the TMA when it is subject to 3.5 degree offsets and then returns to the initial position. Requirements are documented in LTS 103.
+Checks the performance of the TMA under 3.5 degree random offsets tracking for 32 seconds (and back to original position) in the full range of azimuth and elevation (another az-el grid).  Checks repeatability, jitter, slew and settle against encoders in EFD, star trackers, and accelerometers. Requirements that must be met are documented in LTS 103. 
 
-Add content here
-================
+
+Methodology
+===========
+
+This 
 
 Add content here.
 See the `reStructuredText Style Guide <https://developer.lsst.io/restructuredtext/style.html>`__ to learn how to create sections, links, images, tables, equations, and more.
