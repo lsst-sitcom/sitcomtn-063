@@ -32,9 +32,24 @@ Analysis
 
 For each central location we plot:
 
-1. The ra and dec of all images in the set.
-2. The ra and dec offset for the central position relative to the first image taken (without wcs). Different colors correspond to different repetitions in step 3.
-3. The calculated ra and dec offset of the central position relative to the first image taken (with wcs). Different colors correspond to different repetitions in step 3.
+1. The ra and dec of all images in the set (see Fig. :ref:`1<fig-ellipse>`).
+2. The ra and dec offset for the central position relative to the first image taken (without wcs). Different colors correspond to different repetitions in step 3 (see Fig. :ref:`2<fig-radec>`).
+3. The calculated ra and dec offset of the central position relative to the first image taken (with wcs). Different colors correspond to different repetitions in step 3  (see Fig. :ref:`3<fig-calcradec>`).
+
+.. figure:: /_static/ellipse.png
+    :name: fig-ellipse
+
+    A sample set of points with the center position and 5 points offset by 3.5 degrees in a random direction.
+
+.. figure:: /_static/radecres.png
+    :name: fig-radec
+
+    The ra and dec offset from the pointing model for the images in the central positon (without wcs). Different colors correspond to different numbers of offsets.
+
+.. figure:: /_static/Calcradecres.png
+    :name: fig-calcradec
+
+    The calculated ra and dec offset from the pointing model for the images in the central positon (using wcs). Different colors correspond to different numbers of offsets.
 
 We also calculate the drift and jitter in ra and dec over time.
 
