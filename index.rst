@@ -13,7 +13,7 @@
 Abstract
 ========
 
-Checks the performance of the TMA under 3.5 degree random offsets tracking for 32 seconds (and back to original position) in the full range of azimuth and elevation (another az-el grid).  Checks repeatability, jitter, slew and settle against encoders in EFD, star trackers, and accelerometers. Requirements that must be met are documented in LTS 103. 
+Checks the performance of the TMA under 3.5 degree random offsets tracking for 32 seconds (and back to original position) in the full range of azimuth and elevation (another az-el grid).  Checks jitter, slew and settle against encoders in the EFD. Requirements that must be met are documented in LTS 103. We require slew and settle time to be less than 4s for zenith angles greater than 30 degrees and the mount jitter to be less than 0.01 arcsec in an image. 
 
 
 Methodology
@@ -27,38 +27,138 @@ On March 9, 2023, we used the following test strategy to check the stability of 
 4. Repeat steps 2 and 3 four more times.
 5. Move to new location and repeat steps 1 – 4.
 
-Analysis
-========
-
-For each central location we plot:
-
-1. The ra and dec of all images in the set (see Fig. :ref:`1<fig-ellipse>`).
-2. The ra and dec offset for the central position relative to the first image taken (without wcs). Different colors correspond to different repetitions in step 3 (see Fig. :ref:`2<fig-radec>`).
-3. The calculated ra and dec offset of the central position relative to the first image taken (with wcs). Different colors correspond to different repetitions in step 3  (see Fig. :ref:`3<fig-calcradec>`).
+An example set of image locations for is shown in Fig. :ref:`1<fig-ellipse>`.
 
 .. figure:: /_static/ellipse.png
     :name: fig-ellipse
 
     A sample set of points with the center position and 5 points offset by 3.5 degrees in a random direction.
 
-.. figure:: /_static/radecres.png
-    :name: fig-radec
+Analysis
+========
 
-    The ra and dec offset from the pointing model for the images in the central positon (without wcs). Different colors correspond to different numbers of offsets.
+Slew and Settle Tests
+---------------------
 
-.. figure:: /_static/Calcradecres.png
-    :name: fig-calcradec
+We evaluate the slew and settle performance.  For the first correctly computed offset test we performed on March 9, we seee azimuth and elevation changes are:
 
-    The calculated ra and dec offset from the pointing model for the images in the central positon (using wcs). Different colors correspond to different numbers of offsets.
+.. figure:: /_static/Az_1.png
+    :name: fig-az-1
 
-We also calculate the drift and jitter in ra and dec over time.
+    Azimuth positions for first 3.5 degree offset test on March 9, 2023.
 
+.. figure:: /_static/El_1.png
+    :name: fig-el-1
+
+    Elevation positions for first 3.5 degree offset test on March 9, 2023.
+
+We then isolate the slew times based on when the mount encoder data shows that azimuth or elevation are changing at a sufficiently fast(?) rate. Here is an example plot for the above test:
+
+.. figure:: /_static/slew_pos_1.png
+    :name: fig-slew-pos
+
+    Slew times for first 3.5 degree offset test on March 9, 2023.
+
+We then plot the slew times for all slews
+
+.. figure:: /_static/Slew_all_1.png
+    :name: fig-slew-all-1
+
+    Slew times for first 3.5 degree offset test on March 9, 2023.
+
+and the slew time for slews that were between 3 and 4 degrees.
+
+.. figure:: /_static/Slew_3_5_1.png
+    :name: fig-slew-3.5-1
+
+    Slew times for 3.5 degree slews for the first 3.5 degree offset test on March 9, 2023.
+
+
+We repeat the same test for another round of slews on March 9:
+
+.. figure:: /_static/az_2.png
+    :name: fig-az-2
+
+    Azimuth positions for second 3.5 degree offset test on March 9, 2023.
+
+.. figure:: /_static/el_2.png
+    :name: fig-el-2
+
+    Elevation positions for second 3.5 degree offset test on March 9, 2023.
+
+.. figure:: /_static/Slew_all_2.png
+    :name: fig-slew-all-2
+
+    Slew times for second 3.5 degree offset test on March 9, 2023.
+
+.. figure:: /_static/Slew_3_5_2.png
+    :name: fig-slew-3.5-2
+
+    Slew times for 3.5 degree slews for the second 3.5 degree offset test on March 9, 2023.
+
+And additionally we repeat this for tests on March 15, 2023:
+
+.. figure:: /_static/az_3.png
+    :name: fig-az-3
+
+    Azimuth positions for a 3.5 degree offset test on March 15, 2023.
+
+.. figure:: /_static/el_3.png
+    :name: fig-el-3
+
+    Elevation positions for a 3.5 degree offset test on March 15, 2023.
+
+.. figure:: /_static/Slew_all_3.png
+    :name: fig-slew-all-3
+
+    Slew times for a 3.5 degree offset test on March 15, 2023.
+
+.. figure:: /_static/Slew_3_5_3.png
+    :name: fig-slew-3.5-3
+
+    Slew times for 3.5 degree slews for the second 3.5 degree offset test on March 15, 2023.
+
+
+We see that for the 3.5 degree slews, the slew and settle time is always less than 4 seconds.
+
+Jitter Tests
+------------
+
+For the jitter tests, we look at how much jitter there is during the StarTracker exposures. Specifically, we fit the azimuth and elevation mount encoder data to a fourth order polynomial and then compute the rms of the residuals. A sample plot is shown here:
+
+.. figure:: /_static/jitter_sample.png
+    :name: fig-jitter-sample
+
+    Sample jitter plot for one exposure.
+
+
+We see that there are outliers due to electrical spikes. We deal with this by removing all points that are 10 :math:`\sigma` from the overall jitter. We then make a histogram of jitter for each exposure.
+
+For the different offset tests, we see:
+
+.. figure:: /_static/jitter_1.png
+    :name: fig-jitter-1
+
+    Histogram of jitter for the first offset test on March 9, 2023.
+
+.. figure:: /_static/jitter_2.png
+    :name: fig-jitter-2
+
+    Histogram of jitter for the second offset test on March 9, 2023.
+
+.. figure:: /_static/jitter_3.png
+    :name: fig-jitter-3
+
+    Histogram of jitter for the offset test on March 15, 2023.
+
+We see that with one exception (which is clearly an outlier), all jitter is less than 0.01 arcsec, which is within the requirements.
 
 Summary
 =======
 
+Slews of 3.5 degrees are always completed in less than 4 seconds, which is within requirements.
 
-
+The jitter is within requirements when we check the mount encoder data and remove outlier datapoints. It is still unclear why these outliers are being read into the EFD.
 
 .. Make in-text citations with: :cite:`bibkey`.
 .. Uncomment to use citations
