@@ -86,7 +86,7 @@ We repeat the same test for another round of slews on March 9:
 
     Elevation positions for second 3.5 degree offset test on March 9, 2023.
 
-.. figure:: /_static/Slew_all_2.png
+.. figure:: /_static/slew_all_2.png
     :name: fig-slew-all-2
 
     Slew times for second 3.5 degree offset test on March 9, 2023.
@@ -132,7 +132,7 @@ For the jitter tests, we look at how much jitter there is during the StarTracker
     Sample jitter plot for one exposure.
 
 
-We see that there are outliers due to electrical spikes. We deal with this by removing all points that are 10 :math:`\sigma` from the overall jitter. We then make a histogram of jitter for each exposure.
+We see that there are outliers due to electrical spikes. We remove all points that are 10 :math:`\sigma` outliers and then compute the rms jitter based on that. We then plot the histograms of jitter for all images below.
 
 For the different offset tests, we see:
 
@@ -153,12 +153,38 @@ For the different offset tests, we see:
 
 We see that with one exception (which is clearly an outlier), all jitter is less than 0.01 arcsec, which is within the requirements.
 
+StarTracker Jitter Tests
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+We also analyze 1000 images of a double star taken with the fast StarTracker camera at 100 Hz over the course of 10 seconds on March 17, 2023. This camera has a plate scale of 0.62 arcsec/pixel. In the image below we can see a drift in the y centroid over time, which we expect from the pointing model. The rms jitter in x is ~0.2 arcsec, which could be due to atmospheric turbulence.
+
+.. figure:: /_static/startracker_centroid.png
+    :name: fig-star-centroid
+
+    Plots of flux and centroid of one of the stars taken with the StarTracker fast camera at 100 Hz for 10 seconds. 
+
+We also FFT the centroid positions to look for 
+
+.. figure:: /_static/startracker_fft.png
+    :name: fig-fft-star
+
+    Absolute value of the FFT of the x and y centroids for both sources in the image.
+
+.. figure:: /_static/startracker_fft_zoom.png
+    :name: fig-fft-zoom
+
+    Zoom in of the absolute value of the FFT of the x and y centroids for both sources in the image.
+
+There also seems to be some periodic jitter with frequency of about 1 Hz. This could be due to mount motion and needs to be correlated with the accelerometer data.
+
 Summary
 =======
 
 Slews of 3.5 degrees are always completed in less than 4 seconds, which is within requirements.
 
 The jitter is within requirements when we check the mount encoder data and remove outlier datapoints. It is still unclear why these outliers are being read into the EFD.
+
+There may be a ~1 Hz oscillation visible in the fast StarTracker data. We should look at more data and correlate with accelerometer readings to properly do the comparison.
 
 .. Make in-text citations with: :cite:`bibkey`.
 .. Uncomment to use citations
