@@ -40,7 +40,7 @@ Analysis
 Slew and Settle Tests
 ---------------------
 
-We evaluate the slew and settle performance.  For the first correctly computed offset test we performed on March 9, we seee azimuth and elevation changes are:
+We evaluate the slew and settle performance.  We measure the total amount of time from when MTPtg sends the command to when the mount encoders no longer displays slewing (there is usually about 0.2 seconds between when the command is sent and when the slew begins). For the first accurate offset test we performed on March 9, we seee azimuth and elevation changes are:
 
 .. figure:: /_static/Az_1.png
     :name: fig-az-1
@@ -52,7 +52,7 @@ We evaluate the slew and settle performance.  For the first correctly computed o
 
     Elevation positions for first 3.5 degree offset test on March 9, 2023.
 
-We then isolate the slew times based on when the mount encoder data shows that azimuth or elevation are changing at a sufficiently fast(?) rate. Here is an example plot for the above test:
+We then isolate the slew times based on when the mount encoder data shows that azimuth or elevation are changing at a sufficiently fast rate of greater than 0.1 per readout. Here is an example plot for the above test:
 
 .. figure:: /_static/slew_pos_1.png
     :name: fig-slew-pos
@@ -119,12 +119,12 @@ And additionally we repeat this for tests on March 15, 2023:
     Slew times for 3.5 degree slews for the second 3.5 degree offset test on March 15, 2023.
 
 
-We see that for the 3.5 degree slews, the slew and settle time is always less than 4 seconds.
+We see that for the 3.5 degree slews, the slew and settle time is sometimes above 4 seconds. If there were no delay between when MTPtg sent commands and the slew began, all times would be below 4 s.
 
 Jitter Tests
 ------------
 
-For the jitter tests, we look at how much jitter there is during the StarTracker exposures. Specifically, we fit the azimuth and elevation mount encoder data to a fourth order polynomial and then compute the rms of the residuals. A sample plot is shown here:
+For the jitter tests, we look at how much jitter there is for the first 32 seconds after the slew finishes. Specifically, we fit the azimuth and elevation mount encoder data to a fourth order polynomial and then compute the rms of the residuals. A sample plot is shown here:
 
 .. figure:: /_static/jitter_sample.png
     :name: fig-jitter-sample
@@ -180,9 +180,9 @@ There also seems to be some periodic jitter with frequency of about 1 Hz. This c
 Summary
 =======
 
-Slews of 3.5 degrees are always completed in less than 4 seconds, which is within requirements.
+Slews of 3.5 degrees usually but not always completed within 4 seconds. If the mount responded instantaneously to the slew command being sent, all slews would take less than 4 s.
 
-The jitter is within requirements when we check the mount encoder data and remove outlier datapoints. It is still unclear why these outliers are being read into the EFD.
+The jitter is usually within requirements when we check the mount encoder data and remove outlier datapoints. It is still unclear why these outliers are being read into the EFD.
 
 There may be a ~1 Hz oscillation visible in the fast StarTracker data. We should look at more data and correlate with accelerometer readings to properly do the comparison.
 
