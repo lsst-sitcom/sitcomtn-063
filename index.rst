@@ -15,7 +15,7 @@ Abstract
 
 Checks the performance of the TMA under 3.5 degree random offsets in the full range of azimuth and elevation.  Checks jitter, slew and settle against encoders in the EFD and accelerometer data. Requirements that must be met are documented in LTS 103. We require slew and settle time to be less than 4s for zenith angles greater than 30 degrees and the mount jitter to be less than 0.01 arcsec in a 15 s image. 
 
-We find that 4.2% of 3.5 degree slews at elevation less than 60 degrees fail to meet the 4s requirement. Additionally, for a few slews the TMA said it was in position very clearly before it actually was. 32% of the 15 second periods after the slews failed the 0.01 jitter requirement. This could be due in part to mount encoder errors. Further analysis needs to be done with the accelerometers and with the StarTracker data to confirm the information from the mount encoder.
+We find that 4.2% of 3.5 degree slews at elevation less than 60 degrees fail to meet the 4s requirement. Additionally, for a few slews the TMA said it was in position before it actually was. 32% of the 15 second periods after the slews failed the 0.01 jitter requirement. This could be due in part to mount encoder errors. Further analysis needs to be done with the accelerometers and with the StarTracker data to confirm the information coming from the mount encoder.
 
 
 Methodology
@@ -127,7 +127,7 @@ And additionally we repeat this for tests on March 15, 2023:
 
     Azimuth positions for a 3.5 degree offset test on March 17, 2023.
 
-.. figure:: /_static/El_0317A.png
+.. figure:: /_static/El_0317.png
     :name: fig-el-3
 
     Elevation positions for a 3.5 degree offset test on March 17, 2023.
@@ -143,7 +143,7 @@ And additionally we repeat this for tests on March 15, 2023:
     Slew times for 3.5 degree slews for the second 3.5 degree offset test on March 17, 2023.
 
 
- And for tests on March 24, 2023:
+And for tests on March 24, 2023:
 
 
 .. figure:: /_static/Slew_all_0324.png
@@ -227,7 +227,7 @@ The full distribution looks like this:
 .. figure:: /_static/jitter_all.png
     :name: fig-jitter-4
 
-    Histogram of 15 seconds of jitter jitter for the offset tests on March 15, 17, and 24 2023.
+    Histogram of 15 seconds of jitter for the offset tests on March 15, 17, and 24 2023.
 
 StarTracker Jitter Tests
 ^^^^^^^^^^^^^^^^^^^^^^^^
