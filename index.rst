@@ -13,16 +13,18 @@
 Abstract
 ========
 
-Checks the performance of the TMA under 3.5 degree random offsets tracking for 32 seconds (and back to original position) in the full range of azimuth and elevation (another az-el grid).  Checks jitter, slew and settle against encoders in the EFD. Requirements that must be met are documented in LTS 103. We require slew and settle time to be less than 4s for zenith angles greater than 30 degrees and the mount jitter to be less than 0.01 arcsec in an image. 
+Checks the performance of the TMA under 3.5 degree random offsets in the full range of azimuth and elevation.  Checks jitter, slew and settle against encoders in the EFD and accelerometer data. Requirements that must be met are documented in LTS 103. We require slew and settle time to be less than 4s for zenith angles greater than 30 degrees and the mount jitter to be less than 0.01 arcsec in a 15 s image. 
+
+We find that 4.2% of 3.5 degree slews at elevation less than 60 degrees fail to meet the 4s requirement. Additionally, for a few slews the TMA said it was in position very clearly before it actually was. 32% of the 15 second periods after the slews failed the 0.01 jitter requirement. This could be due in part to mount encoder errors. Further analysis needs to be done with the accelerometers and with the StarTracker data to confirm the information from the mount encoder.
 
 
 Methodology
 ===========
 
-On March 9, 2023, we used the following test strategy to check the stability of the TMA under slews.
+On March 9, 15 and 17, and 23, 2023, we used the following test strategy to check the stability of the TMA under slews.
 
 1. Take 3 images in one location.
-2. Move 3.5 degrees in a random direction and take 3 images there.
+2. Move 3.5 degrees on sky in a random direction and take 3 images there.
 3. Return to location (1) and take three more images.
 4. Repeat steps 2 and 3 four more times.
 5. Move to new location and repeat steps 1 – 4.
@@ -40,7 +42,7 @@ Analysis
 Slew and Settle Tests
 ---------------------
 
-We evaluate the slew and settle performance.  We measure the total amount of time from when MTPtg sends the command to when the mount encoders no longer displays slewing (there is usually about 0.2 seconds between when the command is sent and when the slew begins). For the first accurate offset test we performed on March 9, we seee azimuth and elevation changes are:
+We evaluate the slew and settle performance.  We measure the total amount of time from when MTPtg sends the command to when the TMA is labeled as in position  (there is usually about 0.2 to 0.3 seconds between when the command is sent and when the slew is detected in the mount encoder data). For the first accurate offset test we performed on March 9, the azimuth and elevation changes are:
 
 .. figure:: /_static/Az_1.png
     :name: fig-az-1
@@ -118,13 +120,75 @@ And additionally we repeat this for tests on March 15, 2023:
 
     Slew times for 3.5 degree slews for the second 3.5 degree offset test on March 15, 2023.
 
+    And additionally we repeat this for tests on March 17, 2023:
 
-We see that for the 3.5 degree slews, the slew and settle time is sometimes above 4 seconds. If there were no delay between when MTPtg sent commands and the slew began, all times would be below 4 s.
+.. figure:: /_static/Az_0317.png
+    :name: fig-az-3
+
+    Azimuth positions for a 3.5 degree offset test on March 17, 2023.
+
+.. figure:: /_static/El_0317A.png
+    :name: fig-el-3
+
+    Elevation positions for a 3.5 degree offset test on March 17, 2023.
+
+.. figure:: /_static/Slew_all_0317.png
+    :name: fig-slew-all-3
+
+    Slew times for a 3.5 degree offset test on March 17, 2023.
+
+.. figure:: /_static/Slew_3_5_0317.png
+    :name: fig-slew-3.5-3
+
+    Slew times for 3.5 degree slews for the second 3.5 degree offset test on March 17, 2023.
+
+
+ And for tests on March 24, 2023:
+
+
+.. figure:: /_static/Slew_all_0324.png
+    :name: fig-slew-all-3
+
+    Slew times for a 3.5 degree offset test on March 24, 2023.
+
+.. figure:: /_static/Slew_3_5_0324.png
+    :name: fig-slew-3.5-3
+
+    Slew times for 3.5 degree slews for the second 3.5 degree offset test on March 24, 2023.
+
+
+Combined Datasets and Summary
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+We combine all the data sets from March 15, March 17, and March 24, for a total of 649 slews, of which 409 are 3.5 degree slews at elevations of less than 60 degrees. Of the 409 slews, 17 have a slew time of 4s or more, so 4.2% fail Sto meet the requirement.
+
+Here is the plot of all 3.5 degree slews:
+
+.. figure:: /_static/Slew_3_5_all.png
+    :name: fig-slew-3.5-3
+
+    Slew times for 3.5 degree slews for the second 3.5 degree offset test on March 15, 17,and 24, 2023.
+
+To better understand what is going on, we look at the slew times as a function of azimut and elevation distance:
+
+.. figure:: /_static/Slew_az_el_3_5.png
+    :name: fig-slew-3.5-3
+
+    Slew times vs azimuth and elevation slew distance for 3.5 degree slews for the second 3.5 degree offset test on March 15, 17,and 24, 2023.
+
+The outliers with very short slew times correspond to a 45 minute period on the night of the 24th when the mount said it was in position before it actually was.
+
+To fully see what's going on, we plot azimuth slew distance vs elevation, with the color bar corresponding to the slew times. Red x is overlaid on the slews that failed to meet the requirement:
+
+.. figure:: /_static/Slew_all_scatter.png
+    :name: fig-slew-3.5-3
+
+    Azimuth slew distance vs elevation, with the color bar corresponding to the slew times. Red x is overlaid on the slews that failed to meet the requirement.
 
 Jitter Tests
 ------------
 
-For the jitter tests, we look at how much jitter there is for the first 32 seconds after the slew finishes. Specifically, we fit the azimuth and elevation mount encoder data to a fourth order polynomial and then compute the rms of the residuals. A sample plot is shown here:
+For the jitter tests, we look at how much jitter there is for the first 32 seconds after the slew finishes and the first 15 seconds. Specifically, we fit the azimuth and elevation mount encoder data to a fourth order polynomial and then compute the rms of the residuals. A sample plot is shown here:
 
 .. figure:: /_static/jitter_sample.png
     :name: fig-jitter-sample
@@ -139,19 +203,31 @@ For the different offset tests, we see:
 .. figure:: /_static/jitter_1.png
     :name: fig-jitter-1
 
-    Histogram of jitter for the first offset test on March 9, 2023.
+    Histogram of the 32 s jitter for the first offset test on March 9, 2023.
 
 .. figure:: /_static/jitter_2.png
     :name: fig-jitter-2
 
-    Histogram of jitter for the second offset test on March 9, 2023.
+    Histogram of the 32 s jitter for the second offset test on March 9, 2023.
 
 .. figure:: /_static/jitter_3.png
     :name: fig-jitter-3
 
-    Histogram of jitter for the offset test on March 15, 2023.
+    Histogram of the 32 s jitter for the offset test on March 15, 2023.
 
-We see that with one exception (which is clearly an outlier), all jitter is less than 0.01 arcsec, which is within the requirements.
+We see that with one exception (which is clearly an outlier), all jitter is less than 0.01 arcsec. However, when we look at 15 seconds, instead of 32 seconds, and also include data from March 17, and March 24, that is no longer the case. In the combined set of data from March 15, 17, and 24, 32% fail to meet the requirement. In part, this is due to what seem to be increased levels of mount encoder jitter, as seen here:
+
+.. figure:: /_static/jitter_example.png
+    :name: fig-jitter-3
+
+    Example of jitter from the night of March 24, 2023.
+
+The full distribution looks like this:
+
+.. figure:: /_static/jitter_all.png
+    :name: fig-jitter-4
+
+    Histogram of 15 seconds of jitter jitter for the offset tests on March 15, 17, and 24 2023.
 
 StarTracker Jitter Tests
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -180,9 +256,9 @@ There also seems to be some periodic jitter with frequency of about 1 Hz. This c
 Summary
 =======
 
-Slews of 3.5 degrees usually but not always completed within 4 seconds. If the mount responded instantaneously to the slew command being sent, all slews would take less than 4 s.
+Slews of 3.5 degrees with elevation less than 60 degrees were completed 96% of the time. 
 
-The jitter is usually within requirements when we check the mount encoder data and remove outlier datapoints. It is still unclear why these outliers are being read into the EFD.
+For the runs on March 15, 17, and 24, the jitter in the 15 seconds after the mount is in position is greater than 0.01 arcsec 32% of the time. This is probably due in part to errors in reading out the mount encoder data, but there may be more fundamental issues.
 
 There may be a ~1 Hz oscillation visible in the fast StarTracker data. We should look at more data and correlate with accelerometer readings to properly do the comparison.
 
