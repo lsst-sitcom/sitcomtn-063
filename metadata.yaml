@@ -13,7 +13,7 @@ serial_number: "063"
 doc_id: "SITCOMTN-063"
 
 # Title of the document, without the series/serial designation
-doc_title: "TMA 3.5 degree offset performance"
+doc_title: "TMA 3.5 degree offset performance: Slew and Settle Times and Jitter"
 
 # Author names, ordered as a list. Each author name should be formatted as 'First Last'
 authors:
